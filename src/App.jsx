@@ -4,6 +4,17 @@ import { supabase } from './supabaseClient';
 
 const REGIONS = ['All Regions', 'North America', 'Europe', 'Middle East', 'Asia', 'Global'];
 const MONTHS = ['All Months', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const MONTH_NUM = { January: 1, February: 2, March: 3, April: 4, May: 5, June: 6, July: 7, August: 8, September: 9, October: 10, November: 11, December: 12 };
+
+function isPastEvent(e, now) {
+  const monthNum = MONTH_NUM[e.month];
+  if (!monthNum || !e.year) return false; // TBA or unknown dates are treated as upcoming
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
+  if (e.year < currentYear) return true;
+  if (e.year === currentYear && monthNum < currentMonth) return true;
+  return false;
+}
 
 export default function FashionTechCalendar() {
   const [events, setEvents] = useState([]);
@@ -47,6 +58,11 @@ export default function FashionTechCalendar() {
       })
       .sort((a, b) => (a.tier === 'featured' ? -1 : 0) - (b.tier === 'featured' ? -1 : 0));
   }, [events, search, region, month]);
+
+  const now = useMemo(() => new Date(), []);
+  const upcomingEvents = useMemo(() => filtered.filter((e) => !isPastEvent(e, now)), [filtered, now]);
+  const pastEvents = useMemo(() => filtered.filter((e) => isPastEvent(e, now)), [filtered, now]);
+  const [showPast, setShowPast] = useState(false);
 
   return (
     <div style={{ minHeight: '100vh', background: '#FBF9F5', fontFamily: "'Inter', system-ui, sans-serif" }}>
@@ -107,10 +123,10 @@ export default function FashionTechCalendar() {
 
       <main style={{ maxWidth: 1000, margin: '0 auto', padding: '40px 24px 80px' }}>
         <div style={{ fontSize: 13, color: '#888', marginBottom: 20, fontWeight: 500 }}>
-          {loading ? 'Loading…' : `${filtered.length} event${filtered.length !== 1 ? 's' : ''} found`}
+          {loading ? 'Loading…' : `${upcomingEvents.length} upcoming event${upcomingEvents.length !== 1 ? 's' : ''} found`}
         </div>
 
-        {!loading && filtered.length === 0 && (
+        {!loading && upcomingEvents.length === 0 && (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: '#999' }}>
             <p className="ft-serif" style={{ fontSize: 20, fontStyle: 'italic', marginBottom: 8 }}>Nothing matches yet.</p>
             <p style={{ fontSize: 14 }}>Know of an event we're missing? <button onClick={() => setShowSubmit(true)} style={{ background: 'none', border: 'none', color: '#1E2C63', fontWeight: 600, cursor: 'pointer', padding: 0, fontSize: 14 }}>Submit it for review.</button></p>
@@ -118,49 +134,25 @@ export default function FashionTechCalendar() {
         )}
 
         <div style={{ display: 'grid', gap: 14 }}>
-          {filtered.map((e) => {
-            const isFeatured = e.tier === 'featured';
-            return (
-              <div
-                key={e.id}
-                style={{
-                  background: isFeatured ? '#FFFBF2' : '#fff',
-                  border: isFeatured ? '1.5px solid #3B4FAE' : '1px solid #f0ece2',
-                  borderRadius: 8,
-                  padding: 22,
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  gap: 20,
-                  flexWrap: 'wrap',
-                  boxShadow: isFeatured ? '0 4px 20px rgba(30,44,99,0.15)' : 'none',
-                  position: 'relative',
-                }}
-              >
-                <div style={{ flex: '1 1 300px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-                    <span className="ft-serif" style={{ fontSize: 20, fontWeight: 700, color: '#2A2012' }}>{e.name}</span>
-                    {isFeatured && (
-                      <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg, #3B4FAE, #1E2C63)', padding: '3px 9px', borderRadius: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-                        Featured
-                      </span>
-                    )}
-                  </div>
-                  <div style={{ fontSize: 13, color: '#888', marginBottom: 10, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Calendar size={13} /> {e.event_date}</span>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><MapPin size={13} /> {e.city}</span>
-                  </div>
-                  <p style={{ fontSize: 14, color: '#4a4030', lineHeight: 1.6, margin: '0 0 8px' }}>{e.why}</p>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: '#1E2C63', textTransform: 'uppercase', letterSpacing: 0.5 }}>{e.focus}</span>
-                </div>
-                {e.link && (
-                  <a href={e.link} target="_blank" rel="noopener noreferrer" style={{ alignSelf: 'flex-start', fontSize: 13, fontWeight: 600, color: '#2A2012', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>
-                    Visit site <ExternalLink size={13} />
-                  </a>
-                )}
-              </div>
-            );
-          })}
+          {upcomingEvents.map((e) => <EventCard key={e.id} e={e} />)}
         </div>
+
+        {pastEvents.length > 0 && (
+          <div style={{ marginTop: 40 }}>
+            <button
+              onClick={() => setShowPast(!showPast)}
+              style={{ background: 'none', border: 'none', borderTop: '1px solid #eee', width: '100%', padding: '16px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', color: '#888', fontSize: 13, fontWeight: 600 }}
+            >
+              <span>Past Events ({pastEvents.length})</span>
+              <ChevronDown size={16} style={{ transform: showPast ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+            </button>
+            {showPast && (
+              <div style={{ display: 'grid', gap: 14, marginTop: 16, opacity: 0.7 }}>
+                {pastEvents.map((e) => <EventCard key={e.id} e={e} />)}
+              </div>
+            )}
+          </div>
+        )}
       </main>
 
       {showSubmit && <SubmitModal onClose={() => setShowSubmit(false)} onSubmit={async (newEvent) => {
@@ -210,6 +202,48 @@ export default function FashionTechCalendar() {
         <div style={{ position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)', background: '#2A2012', color: '#fff', padding: '12px 24px', borderRadius: 6, fontSize: 14, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }}>
           <Check size={16} color="#3B4FAE" /> {toast}
         </div>
+      )}
+    </div>
+  );
+}
+
+function EventCard({ e }) {
+  const isFeatured = e.tier === 'featured';
+  return (
+    <div
+      style={{
+        background: isFeatured ? '#FFFBF2' : '#fff',
+        border: isFeatured ? '1.5px solid #3B4FAE' : '1px solid #f0ece2',
+        borderRadius: 8,
+        padding: 22,
+        display: 'flex',
+        justifyContent: 'space-between',
+        gap: 20,
+        flexWrap: 'wrap',
+        boxShadow: isFeatured ? '0 4px 20px rgba(30,44,99,0.15)' : 'none',
+        position: 'relative',
+      }}
+    >
+      <div style={{ flex: '1 1 300px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+          <span className="ft-serif" style={{ fontSize: 20, fontWeight: 700, color: '#2A2012' }}>{e.name}</span>
+          {isFeatured && (
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg, #3B4FAE, #1E2C63)', padding: '3px 9px', borderRadius: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+              Featured
+            </span>
+          )}
+        </div>
+        <div style={{ fontSize: 13, color: '#888', marginBottom: 10, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Calendar size={13} /> {e.event_date}</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><MapPin size={13} /> {e.city}</span>
+        </div>
+        <p style={{ fontSize: 14, color: '#4a4030', lineHeight: 1.6, margin: '0 0 8px' }}>{e.why}</p>
+        <span style={{ fontSize: 12, fontWeight: 600, color: '#1E2C63', textTransform: 'uppercase', letterSpacing: 0.5 }}>{e.focus}</span>
+      </div>
+      {e.link && (
+        <a href={e.link} target="_blank" rel="noopener noreferrer" style={{ alignSelf: 'flex-start', fontSize: 13, fontWeight: 600, color: '#2A2012', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>
+          Visit site <ExternalLink size={13} />
+        </a>
       )}
     </div>
   );

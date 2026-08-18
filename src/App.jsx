@@ -12,6 +12,7 @@ export default function FashionTechCalendar() {
   const [month, setMonth] = useState('All Months');
   const [showSubmit, setShowSubmit] = useState(false);
   const [showEmailCapture, setShowEmailCapture] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(false);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState('');
 
@@ -64,7 +65,7 @@ export default function FashionTechCalendar() {
           The Calendar
         </h1>
         <p className="ft-serif" style={{ fontStyle: 'italic', fontSize: 18, color: 'rgba(255,255,255,0.95)', maxWidth: 480, margin: '0 auto' }}>
-          Every fashion-tech conference and major fashion week worth your time — searchable by month and geography.
+          Every 2026 fashion (and fashion tech) event worth your time — searchable by month and location.
         </p>
         <button
           onClick={() => setShowEmailCapture(true)}
@@ -72,6 +73,14 @@ export default function FashionTechCalendar() {
         >
           <Mail size={16} /> Get the calendar in your inbox
         </button>
+        <div style={{ marginTop: 14 }}>
+          <button
+            onClick={() => setShowQuestion(true)}
+            style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.85)', fontSize: 13, textDecoration: 'underline', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+          >
+            Question or comment?
+          </button>
+        </div>
       </header>
 
       <div style={{ maxWidth: 1000, margin: '-32px auto 0', padding: '0 24px', position: 'relative', zIndex: 2 }}>
@@ -184,6 +193,19 @@ export default function FashionTechCalendar() {
         }
       }} />}
 
+      {showQuestion && <QuestionModal onClose={() => setShowQuestion(false)} onSubmit={async (data) => {
+        const { error } = await supabase.from('questions').insert([{
+          message: data.message,
+          contact_email: data.email,
+        }]);
+        setShowQuestion(false);
+        if (error) {
+          showToast('Something went wrong — please try again.');
+        } else {
+          showToast("Thanks — we'll get back to you.");
+        }
+      }} />}
+
       {toast && (
         <div style={{ position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)', background: '#2A2012', color: '#fff', padding: '12px 24px', borderRadius: 6, fontSize: 14, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }}>
           <Check size={16} color="#3B4FAE" /> {toast}
@@ -279,6 +301,53 @@ function EmailModal({ onClose, onSubmit }) {
         />
         <button type="submit" disabled={submitting} style={{ background: '#1E2C63', color: '#fff', border: 'none', borderRadius: 6, padding: '0 20px', fontWeight: 700, fontSize: 14, cursor: submitting ? 'default' : 'pointer', opacity: submitting ? 0.7 : 1 }}>
           {submitting ? '...' : 'Subscribe'}
+        </button>
+      </form>
+    </Modal>
+  );
+}
+
+function QuestionModal({ onClose, onSubmit }) {
+  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+    setSubmitting(true);
+    await onSubmit({ message, email });
+    setSubmitting(false);
+  };
+
+  return (
+    <Modal onClose={onClose} title="Question or comment?">
+      <p style={{ fontSize: 13, color: '#888', margin: '0 0 20px' }}>
+        Tell us what's on your mind — missing event, feedback, anything.
+      </p>
+      <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 12 }}>
+        <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#4a4030' }}>
+          Your message
+          <textarea
+            required
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            rows={4}
+            style={{ width: '100%', marginTop: 4, padding: '9px 10px', border: '1px solid #eee', borderRadius: 6, fontSize: 14, fontFamily: 'Inter, sans-serif', resize: 'vertical' }}
+          />
+        </label>
+        <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#4a4030' }}>
+          Your email (optional, in case we want to reply)
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@email.com"
+            style={{ width: '100%', marginTop: 4, padding: '9px 10px', border: '1px solid #eee', borderRadius: 6, fontSize: 14, fontFamily: 'Inter, sans-serif' }}
+          />
+        </label>
+        <button type="submit" disabled={submitting} style={{ marginTop: 8, background: '#1E2C63', color: '#fff', border: 'none', borderRadius: 6, padding: '12px', fontWeight: 700, fontSize: 14, cursor: submitting ? 'default' : 'pointer', opacity: submitting ? 0.7 : 1 }}>
+          {submitting ? 'Sending…' : 'Send'}
         </button>
       </form>
     </Modal>

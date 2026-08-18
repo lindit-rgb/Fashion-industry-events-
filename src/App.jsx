@@ -16,6 +16,12 @@ function isPastEvent(e, now) {
   return false;
 }
 
+function firstDayNumber(eventDate) {
+  if (!eventDate) return 32; // unknown day sorts to end of its month
+  const match = eventDate.match(/\d{1,2}/);
+  return match ? parseInt(match[0], 10) : 32;
+}
+
 export default function FashionTechCalendar() {
   const [events, setEvents] = useState([]);
   const [search, setSearch] = useState('');
@@ -61,7 +67,8 @@ export default function FashionTechCalendar() {
         if (yearDiff !== 0) return yearDiff;
         const aMonth = MONTH_NUM[a.month] || 13;
         const bMonth = MONTH_NUM[b.month] || 13;
-        return aMonth - bMonth;
+        if (aMonth !== bMonth) return aMonth - bMonth;
+        return firstDayNumber(a.event_date) - firstDayNumber(b.event_date);
       });
   }, [events, search, region, month]);
 

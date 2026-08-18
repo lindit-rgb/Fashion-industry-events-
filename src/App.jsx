@@ -78,7 +78,7 @@ export default function FashionTechCalendar() {
             onClick={() => setShowQuestion(true)}
             style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.85)', fontSize: 13, textDecoration: 'underline', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
           >
-            Question or comment?
+            Questions/Comments?
           </button>
         </div>
       </header>
@@ -321,9 +321,9 @@ function QuestionModal({ onClose, onSubmit }) {
   };
 
   return (
-    <Modal onClose={onClose} title="Question or comment?">
+    <Modal onClose={onClose} title="Questions/Comments?">
       <p style={{ fontSize: 13, color: '#888', margin: '0 0 20px' }}>
-        Tell us what's on your mind — missing event, feedback, anything.
+        Tell us what's on your mind.
       </p>
       <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 12 }}>
         <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#4a4030' }}>
@@ -337,7 +337,7 @@ function QuestionModal({ onClose, onSubmit }) {
           />
         </label>
         <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#4a4030' }}>
-          Your email (optional, in case we want to reply)
+          Your email
           <input
             type="email"
             value={email}

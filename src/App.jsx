@@ -217,7 +217,8 @@ function SubmitModal({ onClose, onSubmit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.city || !form.date) return;
+    const isValidUrl = /^https?:\/\/.+/.test(form.link.trim());
+    if (!form.name || !form.city || !form.date || !isValidUrl) return;
     setSubmitting(true);
     await onSubmit(form);
     setSubmitting(false);
@@ -240,7 +241,7 @@ function SubmitModal({ onClose, onSubmit }) {
         </div>
         <Field label="Focus area" value={form.focus} onChange={set('focus')} placeholder="e.g. AI, virtual try-on, retail tech" />
         <Field label="Why it matters" value={form.why} onChange={set('why')} multiline />
-        <Field label="Event link" value={form.link} onChange={set('link')} placeholder="https://" />
+        <Field label="Event link (required, so people can learn more)" value={form.link} onChange={set('link')} placeholder="https://" required />
         <Field label="Your email (not published)" value={form.contact} onChange={set('contact')} type="email" />
         <button type="submit" disabled={submitting} style={{ marginTop: 8, background: '#C88A2E', color: '#fff', border: 'none', borderRadius: 6, padding: '12px', fontWeight: 700, fontSize: 14, cursor: submitting ? 'default' : 'pointer', opacity: submitting ? 0.7 : 1 }}>
           {submitting ? 'Sending…' : 'Submit for review'}

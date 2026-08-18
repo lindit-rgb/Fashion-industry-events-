@@ -70,7 +70,7 @@ export default function FashionTechCalendar() {
           onClick={() => setShowEmailCapture(true)}
           style={{ marginTop: 28, background: '#fff', color: '#C88A2E', border: 'none', borderRadius: 4, padding: '12px 28px', fontWeight: 700, fontSize: 14, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}
         >
-          <Mail size={16} /> Get updates in your inbox
+          <Mail size={16} /> Get the calendar in your inbox
         </button>
       </header>
 
@@ -265,7 +265,7 @@ function EmailModal({ onClose, onSubmit }) {
   return (
     <Modal onClose={onClose} title="Get the calendar in your inbox">
       <p style={{ fontSize: 13, color: '#888', margin: '0 0 20px' }}>
-        Once a week: what's changing in fashion tech, who's building it, and where the industry is showing up next.
+        Subscribe below.
       </p>
       <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10 }}>
         <input

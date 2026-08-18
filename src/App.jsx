@@ -57,8 +57,6 @@ export default function FashionTechCalendar() {
         return matchesSearch && matchesRegion && matchesMonth;
       })
       .sort((a, b) => {
-        const featuredDiff = (a.tier === 'featured' ? -1 : 0) - (b.tier === 'featured' ? -1 : 0);
-        if (featuredDiff !== 0) return featuredDiff;
         const yearDiff = (a.year || 9999) - (b.year || 9999);
         if (yearDiff !== 0) return yearDiff;
         const aMonth = MONTH_NUM[a.month] || 13;

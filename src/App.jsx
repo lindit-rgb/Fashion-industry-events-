@@ -86,7 +86,7 @@ export default function FashionTechCalendar() {
         .ft-serif { font-family: 'Bodoni Moda', serif; }
       `}</style>
 
-      <header style={{ background: 'linear-gradient(135deg, #3B4FAE 0%, #28387F 55%, #1E2C63 100%)', padding: '56px 24px 64px', textAlign: 'center', position: 'relative' }}>
+      <header style={{ background: 'linear-gradient(135deg, #F4C142 0%, #CFA438 55%, #9E7D2A 100%)', padding: '56px 24px 64px', textAlign: 'center', position: 'relative' }}>
         <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', color: '#fff', opacity: 0.85, marginBottom: 16 }}>
           Where Fashion Is Meeting
         </div>
@@ -98,7 +98,7 @@ export default function FashionTechCalendar() {
         </p>
         <button
           onClick={() => setShowEmailCapture(true)}
-          style={{ marginTop: 28, background: '#fff', color: '#1E2C63', border: 'none', borderRadius: 4, padding: '12px 28px', fontWeight: 700, fontSize: 14, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}
+          style={{ marginTop: 28, background: '#fff', color: '#9E7D2A', border: 'none', borderRadius: 4, padding: '12px 28px', fontWeight: 700, fontSize: 14, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}
         >
           <Mail size={16} /> Get the calendar in your inbox
         </button>
@@ -127,7 +127,7 @@ export default function FashionTechCalendar() {
           <FilterSelect icon={<Calendar size={14} />} value={month} onChange={setMonth} options={MONTHS} />
           <button
             onClick={() => setShowSubmit(true)}
-            style={{ background: 'linear-gradient(135deg, #3B4FAE 0%, #28387F 55%, #1E2C63 100%)', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 16px', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}
+            style={{ background: 'linear-gradient(135deg, #F4C142 0%, #CFA438 55%, #9E7D2A 100%)', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 16px', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}
           >
             <Plus size={16} /> Submit an event
           </button>
@@ -142,7 +142,7 @@ export default function FashionTechCalendar() {
         {!loading && upcomingEvents.length === 0 && (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: '#999' }}>
             <p className="ft-serif" style={{ fontSize: 20, fontStyle: 'italic', marginBottom: 8 }}>Nothing matches yet.</p>
-            <p style={{ fontSize: 14 }}>Know of an event we're missing? <button onClick={() => setShowSubmit(true)} style={{ background: 'none', border: 'none', color: '#1E2C63', fontWeight: 600, cursor: 'pointer', padding: 0, fontSize: 14 }}>Submit it for review.</button></p>
+            <p style={{ fontSize: 14 }}>Know of an event we're missing? <button onClick={() => setShowSubmit(true)} style={{ background: 'none', border: 'none', color: '#9E7D2A', fontWeight: 600, cursor: 'pointer', padding: 0, fontSize: 14 }}>Submit it for review.</button></p>
           </div>
         )}
 
@@ -213,7 +213,7 @@ export default function FashionTechCalendar() {
 
       {toast && (
         <div style={{ position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)', background: '#2A2012', color: '#fff', padding: '12px 24px', borderRadius: 6, fontSize: 14, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }}>
-          <Check size={16} color="#3B4FAE" /> {toast}
+          <Check size={16} color="#F4C142" /> {toast}
         </div>
       )}
     </div>
@@ -226,14 +226,14 @@ function EventCard({ e }) {
     <div
       style={{
         background: isFeatured ? '#FFFBF2' : '#fff',
-        border: isFeatured ? '1.5px solid #3B4FAE' : '1px solid #f0ece2',
+        border: isFeatured ? '1.5px solid #F4C142' : '1px solid #f0ece2',
         borderRadius: 8,
         padding: 22,
         display: 'flex',
         justifyContent: 'space-between',
         gap: 20,
         flexWrap: 'wrap',
-        boxShadow: isFeatured ? '0 4px 20px rgba(30,44,99,0.15)' : 'none',
+        boxShadow: isFeatured ? '0 4px 20px rgba(158,125,42,0.2)' : 'none',
         position: 'relative',
       }}
     >
@@ -241,7 +241,7 @@ function EventCard({ e }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
           <span className="ft-serif" style={{ fontSize: 20, fontWeight: 700, color: '#2A2012' }}>{e.name}</span>
           {isFeatured && (
-            <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg, #3B4FAE, #1E2C63)', padding: '3px 9px', borderRadius: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg, #F4C142, #9E7D2A)', padding: '3px 9px', borderRadius: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
               Featured
             </span>
           )}
@@ -251,7 +251,7 @@ function EventCard({ e }) {
           <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><MapPin size={13} /> {e.city}</span>
         </div>
         <p style={{ fontSize: 14, color: '#4a4030', lineHeight: 1.6, margin: '0 0 8px' }}>{e.why}</p>
-        <span style={{ fontSize: 12, fontWeight: 600, color: '#1E2C63', textTransform: 'uppercase', letterSpacing: 0.5 }}>{e.focus}</span>
+        <span style={{ fontSize: 12, fontWeight: 600, color: '#9E7D2A', textTransform: 'uppercase', letterSpacing: 0.5 }}>{e.focus}</span>
       </div>
       {e.link && (
         <a href={e.link} target="_blank" rel="noopener noreferrer" style={{ alignSelf: 'flex-start', fontSize: 13, fontWeight: 600, color: '#2A2012', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>
@@ -312,7 +312,7 @@ function SubmitModal({ onClose, onSubmit }) {
         <Field label="Why it matters" value={form.why} onChange={set('why')} multiline />
         <Field label="Event link (required, so people can learn more)" value={form.link} onChange={set('link')} placeholder="https://" required />
         <Field label="Your email (not published)" value={form.contact} onChange={set('contact')} type="email" />
-        <button type="submit" disabled={submitting} style={{ marginTop: 8, background: '#1E2C63', color: '#fff', border: 'none', borderRadius: 6, padding: '12px', fontWeight: 700, fontSize: 14, cursor: submitting ? 'default' : 'pointer', opacity: submitting ? 0.7 : 1 }}>
+        <button type="submit" disabled={submitting} style={{ marginTop: 8, background: '#9E7D2A', color: '#fff', border: 'none', borderRadius: 6, padding: '12px', fontWeight: 700, fontSize: 14, cursor: submitting ? 'default' : 'pointer', opacity: submitting ? 0.7 : 1 }}>
           {submitting ? 'Sending…' : 'Submit for review'}
         </button>
       </form>
@@ -346,7 +346,7 @@ function EmailModal({ onClose, onSubmit }) {
           placeholder="you@email.com"
           style={{ flex: 1, padding: '12px 14px', border: '1px solid #eee', borderRadius: 6, fontSize: 14, fontFamily: 'Inter, sans-serif' }}
         />
-        <button type="submit" disabled={submitting} style={{ background: '#1E2C63', color: '#fff', border: 'none', borderRadius: 6, padding: '0 20px', fontWeight: 700, fontSize: 14, cursor: submitting ? 'default' : 'pointer', opacity: submitting ? 0.7 : 1 }}>
+        <button type="submit" disabled={submitting} style={{ background: '#9E7D2A', color: '#fff', border: 'none', borderRadius: 6, padding: '0 20px', fontWeight: 700, fontSize: 14, cursor: submitting ? 'default' : 'pointer', opacity: submitting ? 0.7 : 1 }}>
           {submitting ? '...' : 'Subscribe'}
         </button>
       </form>
@@ -393,7 +393,7 @@ function QuestionModal({ onClose, onSubmit }) {
             style={{ width: '100%', marginTop: 4, padding: '9px 10px', border: '1px solid #eee', borderRadius: 6, fontSize: 14, fontFamily: 'Inter, sans-serif' }}
           />
         </label>
-        <button type="submit" disabled={submitting} style={{ marginTop: 8, background: '#1E2C63', color: '#fff', border: 'none', borderRadius: 6, padding: '12px', fontWeight: 700, fontSize: 14, cursor: submitting ? 'default' : 'pointer', opacity: submitting ? 0.7 : 1 }}>
+        <button type="submit" disabled={submitting} style={{ marginTop: 8, background: '#9E7D2A', color: '#fff', border: 'none', borderRadius: 6, padding: '12px', fontWeight: 700, fontSize: 14, cursor: submitting ? 'default' : 'pointer', opacity: submitting ? 0.7 : 1 }}>
           {submitting ? 'Sending…' : 'Send'}
         </button>
       </form>

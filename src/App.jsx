@@ -265,15 +265,15 @@ function EventCard({ e }) {
 function FilterSelect({ icon, value, onChange, options }) {
   return (
     <div style={{ position: 'relative' }}>
-      <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#999', pointerEvents: 'none' }}>{icon}</span>
+      <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#F4C142', pointerEvents: 'none' }}>{icon}</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        style={{ appearance: 'none', padding: '10px 32px 10px 32px', border: '1px solid #eee', borderRadius: 6, fontSize: 14, fontFamily: 'Inter, sans-serif', background: '#fff', cursor: 'pointer' }}
+        style={{ appearance: 'none', padding: '10px 32px 10px 32px', border: '1px solid #eee', borderRadius: 6, fontSize: 14, fontFamily: 'Inter, sans-serif', background: '#fff', color: '#F4C142', cursor: 'pointer' }}
       >
         {options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>
-      <ChevronDown size={14} style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', color: '#999', pointerEvents: 'none' }} />
+      <ChevronDown size={14} style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', color: '#F4C142', pointerEvents: 'none' }} />
     </div>
   );
 }

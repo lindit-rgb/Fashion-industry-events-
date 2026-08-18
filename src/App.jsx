@@ -75,13 +75,13 @@ export default function FashionTechCalendar() {
 
       <header style={{ background: 'linear-gradient(135deg, #3B4FAE 0%, #28387F 55%, #1E2C63 100%)', padding: '56px 24px 64px', textAlign: 'center', position: 'relative' }}>
         <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', color: '#fff', opacity: 0.85, marginBottom: 16 }}>
-          Where Fashion (Tech) Is Meeting
+          Where Fashion Is Meeting
         </div>
         <h1 className="ft-serif" style={{ fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 900, color: '#fff', margin: '0 0 16px', letterSpacing: -1 }}>
           The Calendar
         </h1>
         <p className="ft-serif" style={{ fontStyle: 'italic', fontSize: 18, color: 'rgba(255,255,255,0.95)', maxWidth: 480, margin: '0 auto' }}>
-          Every 2026 fashion (and fashion tech) event worth your time — searchable by month and location.
+          Every 2026 fashion (and fashion tech) event worth your time.
         </p>
         <button
           onClick={() => setShowEmailCapture(true)}

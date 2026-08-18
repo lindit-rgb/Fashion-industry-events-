@@ -86,7 +86,7 @@ export default function FashionTechCalendar() {
         .ft-serif { font-family: 'Bodoni Moda', serif; }
       `}</style>
 
-      <header style={{ background: 'linear-gradient(135deg, #F4C142 0%, #CFA438 55%, #9E7D2A 100%)', padding: '56px 24px 64px', textAlign: 'center', position: 'relative' }}>
+      <header style={{ background: '#F4C142', padding: '56px 24px 64px', textAlign: 'center', position: 'relative' }}>
         <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', color: '#fff', opacity: 0.85, marginBottom: 16 }}>
           Where Fashion Is Meeting
         </div>
@@ -127,7 +127,7 @@ export default function FashionTechCalendar() {
           <FilterSelect icon={<Calendar size={14} />} value={month} onChange={setMonth} options={MONTHS} />
           <button
             onClick={() => setShowSubmit(true)}
-            style={{ background: 'linear-gradient(135deg, #F4C142 0%, #CFA438 55%, #9E7D2A 100%)', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 16px', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}
+            style={{ background: '#F4C142', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 16px', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}
           >
             <Plus size={16} /> Submit an event
           </button>
@@ -241,7 +241,7 @@ function EventCard({ e }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
           <span className="ft-serif" style={{ fontSize: 20, fontWeight: 700, color: '#2A2012' }}>{e.name}</span>
           {isFeatured && (
-            <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg, #F4C142, #9E7D2A)', padding: '3px 9px', borderRadius: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', background: '#F4C142', padding: '3px 9px', borderRadius: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
               Featured
             </span>
           )}

@@ -56,7 +56,15 @@ export default function FashionTechCalendar() {
         const matchesMonth = month === 'All Months' || e.month === month;
         return matchesSearch && matchesRegion && matchesMonth;
       })
-      .sort((a, b) => (a.tier === 'featured' ? -1 : 0) - (b.tier === 'featured' ? -1 : 0));
+      .sort((a, b) => {
+        const featuredDiff = (a.tier === 'featured' ? -1 : 0) - (b.tier === 'featured' ? -1 : 0);
+        if (featuredDiff !== 0) return featuredDiff;
+        const yearDiff = (a.year || 9999) - (b.year || 9999);
+        if (yearDiff !== 0) return yearDiff;
+        const aMonth = MONTH_NUM[a.month] || 13;
+        const bMonth = MONTH_NUM[b.month] || 13;
+        return aMonth - bMonth;
+      });
   }, [events, search, region, month]);
 
   const now = useMemo(() => new Date(), []);

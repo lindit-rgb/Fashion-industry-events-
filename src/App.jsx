@@ -98,7 +98,7 @@ export default function FashionTechCalendar() {
           <FilterSelect icon={<Calendar size={14} />} value={month} onChange={setMonth} options={MONTHS} />
           <button
             onClick={() => setShowSubmit(true)}
-            style={{ background: '#2A2012', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 16px', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}
+            style={{ background: '#1E2C63', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 16px', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap' }}
           >
             <Plus size={16} /> Submit an event
           </button>

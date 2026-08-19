@@ -105,7 +105,8 @@ export default function FashionTechCalendar() {
         <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', color: '#fff', opacity: 0.85, marginBottom: 16 }}>
           Where Fashion Is Meeting
         </div>
-        <h1 className="ft-serif" style={{ fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 900, color: '#fff', margin: '0 0 16px', letterSpacing: -1 }}>
+        <h1 className="ft-serif" style={{ fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 900, color: '#fff', margin: '0 0 16px', letterSpacing: -1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+          <img src="/favicon.png" alt="" style={{ width: '0.8em', height: '0.8em', borderRadius: '18%' }} />
           The Calendar
         </h1>
         <p className="ft-serif" style={{ fontStyle: 'italic', fontSize: 18, color: 'rgba(255,255,255,0.95)', maxWidth: 480, margin: '0 auto' }}>

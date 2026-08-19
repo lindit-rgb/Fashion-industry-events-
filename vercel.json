@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.fashionindustryevents.com"
+        }
+      ],
+      "destination": "https://fashionindustryevents.com/:path*",
+      "permanent": true
+    }
+  ]
+}

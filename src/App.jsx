@@ -183,10 +183,10 @@ export default function FashionTechCalendar() {
         )}
       </main>
 
-      <footer style={{ borderTop: '1px solid #eee', padding: '28px 24px', textAlign: 'center', display: 'flex', justifyContent: 'center', gap: 24, flexWrap: 'wrap' }}>
-        <button onClick={() => setShowContact(true)} style={{ background: 'none', border: 'none', color: '#888', fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Contact Us</button>
-        <button onClick={() => setShowTerms(true)} style={{ background: 'none', border: 'none', color: '#888', fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Terms & Conditions</button>
-        <button onClick={() => setShowPrivacy(true)} style={{ background: 'none', border: 'none', color: '#888', fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Privacy Policy</button>
+      <footer style={{ background: '#F4C142', padding: '28px 24px', textAlign: 'center', display: 'flex', justifyContent: 'center', gap: 24, flexWrap: 'wrap' }}>
+        <button onClick={() => setShowContact(true)} style={{ background: 'none', border: 'none', color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Contact Us</button>
+        <button onClick={() => setShowTerms(true)} style={{ background: 'none', border: 'none', color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Terms & Conditions</button>
+        <button onClick={() => setShowPrivacy(true)} style={{ background: 'none', border: 'none', color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Privacy Policy</button>
       </footer>
 
       {showSubmit && <SubmitModal onClose={() => setShowSubmit(false)} onSubmit={async (newEvent) => {

@@ -42,6 +42,9 @@ export default function FashionTechCalendar() {
   const [showSubmit, setShowSubmit] = useState(false);
   const [showEmailCapture, setShowEmailCapture] = useState(false);
   const [showQuestion, setShowQuestion] = useState(false);
+  const [showContact, setShowContact] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState('');
 
@@ -180,6 +183,12 @@ export default function FashionTechCalendar() {
         )}
       </main>
 
+      <footer style={{ borderTop: '1px solid #eee', padding: '28px 24px', textAlign: 'center', display: 'flex', justifyContent: 'center', gap: 24, flexWrap: 'wrap' }}>
+        <button onClick={() => setShowContact(true)} style={{ background: 'none', border: 'none', color: '#888', fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Contact Us</button>
+        <button onClick={() => setShowTerms(true)} style={{ background: 'none', border: 'none', color: '#888', fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Terms & Conditions</button>
+        <button onClick={() => setShowPrivacy(true)} style={{ background: 'none', border: 'none', color: '#888', fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>Privacy Policy</button>
+      </footer>
+
       {showSubmit && <SubmitModal onClose={() => setShowSubmit(false)} onSubmit={async (newEvent) => {
         const { error } = await supabase.from('pending_events').insert([{
           name: newEvent.name,
@@ -243,6 +252,34 @@ export default function FashionTechCalendar() {
           });
         }
       }} />}
+
+      {showContact && (
+        <Modal onClose={() => setShowContact(false)} title="Contact Us">
+          <div style={{ display: 'grid', gap: 14, fontSize: 15, color: '#4a4030' }}>
+            <div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: '#888', marginBottom: 2 }}>Email address</div>
+              <a href="mailto:thefashioncalendar@gmail.com" style={{ color: '#9E7D2A', textDecoration: 'none', fontWeight: 600 }}>thefashioncalendar@gmail.com</a>
+            </div>
+            <div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: '#888', marginBottom: 2 }}>Phone number</div>
+              <a href="tel:+12068598605" style={{ color: '#9E7D2A', textDecoration: 'none', fontWeight: 600 }}>206-859-8605</a>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {showTerms && (
+        <Modal onClose={() => setShowTerms(false)} title="Terms & Conditions">
+          <TermsContent />
+        </Modal>
+      )}
+
+      {showPrivacy && (
+        <Modal onClose={() => setShowPrivacy(false)} title="Privacy Policy">
+          <PrivacyContent />
+        </Modal>
+      )}
+
 
       {toast && (
         <div style={{ position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)', background: '#2A2012', color: '#fff', padding: '12px 24px', borderRadius: 6, fontSize: 14, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }}>
@@ -445,6 +482,44 @@ function QuestionModal({ onClose, onSubmit }) {
         </button>
       </form>
     </Modal>
+  );
+}
+
+function TermsContent() {
+  const section = { marginBottom: 16 };
+  const h3 = { fontSize: 14, fontWeight: 700, color: '#2A2012', margin: '0 0 4px' };
+  const p = { fontSize: 13, color: '#4a4030', lineHeight: 1.6, margin: 0 };
+  return (
+    <div style={{ maxHeight: '60vh', overflowY: 'auto', paddingRight: 4 }}>
+      <p style={{ fontSize: 12, color: '#999', marginBottom: 16 }}>Last updated: August 2026</p>
+      <div style={section}><p style={p}>Welcome to Fashion Industry Events (fashionindustryevents.com), a free calendar of fashion and fashion-technology events ("the Site"). By using the Site, you agree to these Terms and Conditions.</p></div>
+      <div style={section}><h3 style={h3}>What This Site Is</h3><p style={p}>We aggregate and display information about fashion weeks, fashion-tech conferences, and related industry events. We do not organize, host, or sell tickets to any of these events, and we're not affiliated with event organizers unless stated.</p></div>
+      <div style={section}><h3 style={h3}>Accuracy of Information</h3><p style={p}>Event details are set by third-party organizers and can change without notice. Always confirm directly with the organizer before making plans. We're not responsible for losses from outdated or inaccurate listings.</p></div>
+      <div style={section}><h3 style={h3}>Submitting Events</h3><p style={p}>Submission doesn't guarantee publication — we review all submissions. By submitting, you confirm the info is accurate and grant us permission to publish it.</p></div>
+      <div style={section}><h3 style={h3}>Newsletter</h3><p style={p}>If you subscribe, we'll use your email to send relevant updates. You can unsubscribe anytime by contacting us.</p></div>
+      <div style={section}><h3 style={h3}>Acceptable Use</h3><p style={p}>Don't submit false or spam listings, use the Site to harm others, or attempt to interfere with its normal operation.</p></div>
+      <div style={section}><h3 style={h3}>No Warranty</h3><p style={p}>The Site is provided "as is." We're not liable for damages from your use of the Site or reliance on listed information.</p></div>
+      <div style={section}><h3 style={h3}>Contact</h3><p style={p}>thefashioncalendar@gmail.com · 206-859-8605</p></div>
+      <p style={{ fontSize: 11, color: '#aaa', fontStyle: 'italic', marginTop: 16 }}>This is a general template and has not been reviewed by an attorney.</p>
+    </div>
+  );
+}
+
+function PrivacyContent() {
+  const section = { marginBottom: 16 };
+  const h3 = { fontSize: 14, fontWeight: 700, color: '#2A2012', margin: '0 0 4px' };
+  const p = { fontSize: 13, color: '#4a4030', lineHeight: 1.6, margin: 0 };
+  return (
+    <div style={{ maxHeight: '60vh', overflowY: 'auto', paddingRight: 4 }}>
+      <p style={{ fontSize: 12, color: '#999', marginBottom: 16 }}>Last updated: August 2026</p>
+      <div style={section}><h3 style={h3}>What We Collect</h3><p style={p}>Only what you give us: your email if you subscribe, event details and email if you submit an event, and your message and email if you contact us. We don't use tracking cookies or analytics on this Site.</p></div>
+      <div style={section}><h3 style={h3}>How We Use It</h3><p style={p}>To send calendar updates, review submissions, and respond to your messages. We never sell your information.</p></div>
+      <div style={section}><h3 style={h3}>How It's Stored</h3><p style={p}>Data is stored via Supabase and the Site is hosted on Vercel. Submissions are also forwarded to our team by email via a third-party relay service (FormSubmit).</p></div>
+      <div style={section}><h3 style={h3}>Your Choices</h3><p style={p}>Email us anytime to unsubscribe or request deletion of any information you've submitted.</p></div>
+      <div style={section}><h3 style={h3}>Children's Privacy</h3><p style={p}>This Site is intended for industry professionals and isn't directed at children under 13.</p></div>
+      <div style={section}><h3 style={h3}>Contact</h3><p style={p}>thefashioncalendar@gmail.com · 206-859-8605</p></div>
+      <p style={{ fontSize: 11, color: '#aaa', fontStyle: 'italic', marginTop: 16 }}>This is a general template and has not been reviewed by an attorney.</p>
+    </div>
   );
 }
 

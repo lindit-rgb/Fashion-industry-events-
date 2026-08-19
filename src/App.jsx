@@ -219,6 +219,10 @@ export default function FashionTechCalendar() {
           showToast(error.code === '23505' ? "You're already on the list." : 'Something went wrong — please try again.');
         } else {
           showToast("You're on the list.");
+          forwardByEmail('New subscriber', {
+            _subject: 'New calendar subscriber',
+            'Subscriber email': email,
+          });
         }
       }} />}
 

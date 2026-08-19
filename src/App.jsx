@@ -22,6 +22,18 @@ function firstDayNumber(eventDate) {
   return match ? parseInt(match[0], 10) : 32;
 }
 
+async function forwardByEmail(subject, fields) {
+  try {
+    await fetch('https://formsubmit.co/ajax/thefashioncalendar@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ _subject: subject, ...fields }),
+    });
+  } catch (err) {
+    // Email forwarding is best-effort; the Supabase record is the source of truth.
+  }
+}
+
 export default function FashionTechCalendar() {
   const [events, setEvents] = useState([]);
   const [search, setSearch] = useState('');
@@ -185,6 +197,18 @@ export default function FashionTechCalendar() {
           showToast('Something went wrong — please try again.');
         } else {
           showToast("Thanks — we'll review it and add it to the calendar.");
+          forwardByEmail('New event submission', {
+            _subject: `New event submission: ${newEvent.name}`,
+            'Event name': newEvent.name,
+            Date: newEvent.date,
+            Month: newEvent.month,
+            City: newEvent.city,
+            Region: newEvent.region,
+            Focus: newEvent.focus,
+            'Why it matters': newEvent.why,
+            Link: newEvent.link,
+            'Submitter email': newEvent.contact || '(not provided)',
+          });
         }
       }} />}
 
@@ -208,6 +232,11 @@ export default function FashionTechCalendar() {
           showToast('Something went wrong — please try again.');
         } else {
           showToast("Thanks — we'll get back to you.");
+          forwardByEmail('New question/comment', {
+            _subject: 'New question/comment from Fashion Industry Events',
+            Message: data.message,
+            'Submitter email': data.email || '(not provided)',
+          });
         }
       }} />}
 

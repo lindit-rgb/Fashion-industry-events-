@@ -281,15 +281,24 @@ function FilterSelect({ icon, value, onChange, options }) {
 function SubmitModal({ onClose, onSubmit }) {
   const [form, setForm] = useState({ name: '', date: '', month: 'January', city: '', region: 'North America', focus: '', why: '', link: '', contact: '' });
   const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormError('');
+    if (!form.name.trim()) return setFormError('Event name is required.');
+    if (!form.city.trim()) return setFormError('City is required.');
+    if (!form.date.trim()) return setFormError('Date is required.');
     const isValidUrl = /^https?:\/\/.+/.test(form.link.trim());
-    if (!form.name || !form.city || !form.date || !isValidUrl) return;
+    if (!isValidUrl) return setFormError('Event link must be a valid URL starting with http:// or https://');
     setSubmitting(true);
-    await onSubmit(form);
+    try {
+      await onSubmit(form);
+    } catch (err) {
+      setFormError('Something went wrong submitting this — please try again.');
+    }
     setSubmitting(false);
   };
 
@@ -312,6 +321,11 @@ function SubmitModal({ onClose, onSubmit }) {
         <Field label="Why it matters" value={form.why} onChange={set('why')} multiline />
         <Field label="Event link (required, so people can learn more)" value={form.link} onChange={set('link')} placeholder="https://" required />
         <Field label="Your email (not published)" value={form.contact} onChange={set('contact')} type="email" />
+        {formError && (
+          <div style={{ fontSize: 13, color: '#b03030', background: '#fdf0f0', border: '1px solid #f0d0d0', borderRadius: 6, padding: '9px 12px' }}>
+            {formError}
+          </div>
+        )}
         <button type="submit" disabled={submitting} style={{ marginTop: 8, background: '#9E7D2A', color: '#fff', border: 'none', borderRadius: 6, padding: '12px', fontWeight: 700, fontSize: 14, cursor: submitting ? 'default' : 'pointer', opacity: submitting ? 0.7 : 1 }}>
           {submitting ? 'Sending…' : 'Submit for review'}
         </button>

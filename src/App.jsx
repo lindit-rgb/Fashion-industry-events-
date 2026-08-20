@@ -11,9 +11,13 @@ function isPastEvent(e, now) {
   if (!monthNum || !e.year) return false; // TBA or unknown dates are treated as upcoming
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth() + 1;
+  const currentDay = now.getDate();
   if (e.year < currentYear) return true;
-  if (e.year === currentYear && monthNum < currentMonth) return true;
-  return false;
+  if (e.year > currentYear) return false;
+  if (monthNum < currentMonth) return true;
+  if (monthNum > currentMonth) return false;
+  // Same month and year: compare the event's start day against today.
+  return firstDayNumber(e.event_date) < currentDay;
 }
 
 function firstDayNumber(eventDate) {

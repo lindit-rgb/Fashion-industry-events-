@@ -42,6 +42,26 @@ function textMatchesQuery(text, query) {
   return text.toLowerCase().includes(query.toLowerCase());
 }
 
+// Common location abbreviations that don't literally appear in our data
+// (we store full city names like "New York", not "NY"), so the strict
+// whole-word matching above would otherwise return zero results for them.
+const LOCATION_ABBREVIATIONS = {
+  ny: ['new york'],
+  nyc: ['new york'],
+  la: ['los angeles'],
+  uk: ['london'],
+  uae: ['dubai'],
+  hk: ['hong kong'],
+  sf: ['san francisco'],
+};
+
+function matchesLocationAbbreviation(e, query) {
+  const expansions = LOCATION_ABBREVIATIONS[query.toLowerCase()];
+  if (!expansions) return false;
+  const haystack = `${e.name} ${e.city}`.toLowerCase();
+  return expansions.some((term) => haystack.includes(term));
+}
+
 async function forwardByEmail(subject, fields) {
   try {
     await fetch('https://formsubmit.co/ajax/thefashioncalendar@gmail.com', {
@@ -93,7 +113,8 @@ export default function FashionTechCalendar() {
           q === '' ||
           textMatchesQuery(e.name, q) ||
           textMatchesQuery(e.city, q) ||
-          textMatchesQuery(e.focus, q);
+          textMatchesQuery(e.focus, q) ||
+          matchesLocationAbbreviation(e, q);
         const matchesRegion = region === 'All Regions' || e.region === region;
         const matchesMonth = month === 'All Months' || e.month === month;
         return matchesSearch && matchesRegion && matchesMonth;

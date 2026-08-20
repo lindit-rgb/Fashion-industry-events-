@@ -26,6 +26,22 @@ function firstDayNumber(eventDate) {
   return match ? parseInt(match[0], 10) : 32;
 }
 
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function textMatchesQuery(text, query) {
+  if (!text) return false;
+  // Short queries (<=3 chars) require a whole-word match, so "AI" doesn't
+  // match inside "Dubai" or "retail". Longer queries keep substring matching,
+  // so "sustain" still catches "sustainability".
+  if (query.length <= 3) {
+    const re = new RegExp(`\\b${escapeRegExp(query)}\\b`, 'i');
+    return re.test(text);
+  }
+  return text.toLowerCase().includes(query.toLowerCase());
+}
+
 async function forwardByEmail(subject, fields) {
   try {
     await fetch('https://formsubmit.co/ajax/thefashioncalendar@gmail.com', {
@@ -72,11 +88,12 @@ export default function FashionTechCalendar() {
   const filtered = useMemo(() => {
     return events
       .filter((e) => {
+        const q = search.trim();
         const matchesSearch =
-          search.trim() === '' ||
-          e.name.toLowerCase().includes(search.toLowerCase()) ||
-          e.city.toLowerCase().includes(search.toLowerCase()) ||
-          (e.focus || '').toLowerCase().includes(search.toLowerCase());
+          q === '' ||
+          textMatchesQuery(e.name, q) ||
+          textMatchesQuery(e.city, q) ||
+          textMatchesQuery(e.focus, q);
         const matchesRegion = region === 'All Regions' || e.region === region;
         const matchesMonth = month === 'All Months' || e.month === month;
         return matchesSearch && matchesRegion && matchesMonth;
